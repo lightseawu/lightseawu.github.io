@@ -1,0 +1,13 @@
+﻿## RECSRecommendations Upload File,,,,,,,,,,,,,,,,,,,
+## RECS''## RECS'' indicates a Recommendations pre-process header. Please do not remove these lines.,,,,,,,,,,,,,,,,,,,
+## RECS,,,,,,,,,,,,,,,,,,,
+## RECSUse this file to upload product display information to Recommendations. Each product has its own row. Each line must contain 19 values and if not all are filled a space should be left.,,,,,,,,,,,,,,,,,,,
+## RECSThe last 100 columns (entity.custom1 - entity.custom100) are custom. The name 'customN' can be replaced with a custom name such as 'onSale' or 'brand'.,,,,,,,,,,,,,,,,,,,
+## RECSIf the products already exist in Recommendations then changes uploaded here will override the data in Recommendations. Any new attributes entered here will be added to the product''s entry in Recommendations.,,,,,,,,,,,,,,,,,,,
+## RECSentity.id,entity.name,entity.categoryId,entity.message,entity.thumbnailUrl,entity.value,entity.pageUrl,entity.inventory,entity.margin,entity.custom1,entity.custom2,entity.custom3,entity.custom4,entity.custom5,entity.custom6,entity.custom7,entity.custom8,entity.custom9,entity.custom10,...
+tv001,samsungtv1,tv,2025 모델,https://images.samsung.com/kdp/goods/2025/03/05/8a201bf6-2a3c-4c85-ba94-c1bd13583e23.png?$PF_PRD_PNG$,100000,https://www.samsung.com/sec/tvs/neo-qled-4k-qnfe1-d2c/KQ85QNFE1AFXKR/,10,,,,,,,,,,,,
+tv002,samsungtv2,tv,2026 모델,https://images.samsung.com/kdp/goods/2025/05/30/f0bfe025-ef45-4c07-a5aa-75940a38482a.png?$PF_PRD_KDP_PNG$,20000,https://www.samsung.com/sec/tvs/package-kq85qf8aa-6-d2c/KQ85QF8AA-6/,5,,,,,,,,,,,,
+tv003,samsungtv3,tv,2027 모델,https://images.samsung.com/kdp/goods/2025/02/14/4d2407cc-fdd1-4aad-af9d-8c1dac530736.png?$PF_PRD_PNG$,30000,https://www.samsung.com/sec/tvs/qled-qfe1-d2c/KQ85QFE1AFXKR/,9,,,,,,,,,,,,
+prod011,samsungphone1,phone,2028 모델,https://images.samsung.com/kdp/goods/2025/06/12/e6105723-aa6d-4cd0-8aac-6c11585c4002.png?$PF_PRD_KDP_PNG$,40000,https://www.samsung.com/sec/smartphones/galaxy-z-flip7-f766/SM-F766NDBAKOO/,100,,,,,,,,,,,,
+prod012,samsungphone2,phone,2029 모델,https://images.samsung.com/kdp/goods/2025/06/12/1b414b29-e158-4cfd-823d-f2b9d8b939aa.png?$PF_PRD_KDP_PNG$,40000,https://www.samsung.com/sec/smartphones/galaxy-z-flip7-f766-cpo/SM-F766NLGAKOO/,100,,,,,,,,,,,,
+prod013,samsungphone3,phone,2030 모델,https://images.samsung.com/kdp/goods/2025/07/03/7d77b249-be13-4c3a-8402-abe2c7993cc7.png?$PF_PRD_KDP_PNG$,40000,https://www.samsung.com/sec/smartphones/galaxy-z-flip7fe-f761v/SM-F761NZKVKOO/,100,,,,,,,,,,,,
