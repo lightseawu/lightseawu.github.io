@@ -9,6 +9,19 @@
 <script src="https://assets.adobedtm.com/adc4e8c4cdbc/639655e2ebee/launch-f07e6db8cc3d-development.min.js" async></script>
     <h1>targetv2</h1>
 
+    <!-- Login -->
+    <div id="login-area" style="margin:12px 0;font-family:sans-serif">
+      <form id="login-form" autocomplete="off">
+        <input id="login-id" type="text" placeholder="ID" required>
+        <input id="login-pw" type="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+      <div id="login-status" style="display:none">
+        Logged in as <b id="login-user"></b>
+        <button id="logout-btn" type="button">Logout</button>
+      </div>
+      <div id="login-msg" style="color:#c00;margin-top:4px"></div>
+    </div>
 
     <!-- Images with Hyperlinks -->
     <a href="https://lightseawu.github.io/" target="_blank">
@@ -17,7 +30,7 @@
     <br>
 
     <a href="https://lightseawu.github.io/simplepage/targetv2.html?formbase=true">Form base</a>
-    
+
 <div class="wrapper">
   <div id="container"> <!-- id is present here. It contributes to selector -->
     <ul class="navigation">
@@ -28,9 +41,77 @@
     </ul>
   </div>
 </div>
-  
+
     <div id="rec_pagetop"></div>
 
-  
+<script>
+(function () {
+  // Demo only: client-side check, password == id. Not secure for production.
+  var VALID_IDS = ["test0001","test001","test002","test003","test004","test005",
+                   "test006","test007","test008","test009","test010"];
+  var CUSTOMER_ID_TYPE = "uid";
+
+  // Launch loads async, so wait until the Visitor instance exists.
+  function withVisitor(cb, tries) {
+    tries = tries || 0;
+    var v = window.visitor;
+    if (!v && window.Visitor && Visitor.instances) {
+      for (var k in Visitor.instances) {
+        if (Visitor.instances.hasOwnProperty(k)) { v = Visitor.instances[k]; break; }
+      }
+    }
+    if (v) return cb(v);
+    if (tries < 100) setTimeout(function () { withVisitor(cb, tries + 1); }, 200);
+    else console.warn("Visitor instance not found");
+  }
+
+  function syncToVisitor(id, state) {
+    withVisitor(function (v) {
+      var ids = {};
+      ids[CUSTOMER_ID_TYPE] = { id: id, authState: state };
+      v.setCustomerIDs(ids);
+      console.log("ECID:", v.getMarketingCloudVisitorID(), "| setCustomerIDs", ids);
+      if (state === Visitor.AuthState.AUTHENTICATED &&
+          window.adobe && adobe.target && adobe.target.triggerView) {
+        adobe.target.triggerView("login");
+      }
+    });
+  }
+
+  function render(id) {
+    document.getElementById("login-form").style.display = id ? "none" : "";
+    document.getElementById("login-status").style.display = id ? "" : "none";
+    document.getElementById("login-user").textContent = id || "";
+  }
+
+  document.getElementById("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var id = document.getElementById("login-id").value.trim();
+    var pw = document.getElementById("login-pw").value;
+    if (VALID_IDS.indexOf(id) > -1 && pw === id) {
+      localStorage.setItem("loginId", id);
+      document.getElementById("login-msg").textContent = "";
+      render(id);
+      syncToVisitor(id, Visitor.AuthState.AUTHENTICATED);
+    } else {
+      document.getElementById("login-msg").textContent = "Invalid ID or password";
+    }
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", function () {
+    localStorage.removeItem("loginId");
+    render(null);
+    syncToVisitor("", Visitor.AuthState.LOGGED_OUT);
+  });
+
+  // Restore session on page load
+  var saved = localStorage.getItem("loginId");
+  if (saved) {
+    render(saved);
+    withVisitor(function () { syncToVisitor(saved, Visitor.AuthState.AUTHENTICATED); });
+  }
+})();
+</script>
+
 </body>
 </html>
