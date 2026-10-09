@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>**targetv2**</title>
+    <title>targetv2</title>
 </head>
 <body>
 
@@ -92,7 +92,9 @@
       localStorage.setItem("loginId", id);
       document.getElementById("login-msg").textContent = "";
       render(id);
-      syncToVisitor(id, Visitor.AuthState.AUTHENTICATED);
+      // Launch rule (Direct Call "login") runs Set Customer IDs using %login id%
+      if (window._satellite) { _satellite.track("login"); }
+      else { console.warn("_satellite not loaded yet"); }
     } else {
       document.getElementById("login-msg").textContent = "Invalid ID or password";
     }
