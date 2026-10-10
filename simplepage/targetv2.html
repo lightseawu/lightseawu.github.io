@@ -5,7 +5,11 @@
     <title>targetv2</title>
 </head>
 <body>
-
+<script>
+  var loginId = null;
+  try { loginId = localStorage.getItem("loginId"); } catch (e) {}
+  window.digitalData = { user: { id: loginId, loggedIn: !!loginId } };
+</script>
 <script src="https://assets.adobedtm.com/adc4e8c4cdbc/639655e2ebee/launch-f07e6db8cc3d-development.min.js" async></script>
     <h1>targetv2</h1>
 
