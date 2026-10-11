@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>targetv2</title>
+
+    <!-- Data layer: must come BEFORE the Launch embed (visitor already logged in on page load) -->
+    <script>
+      var loginId = null;
+      try { loginId = localStorage.getItem("loginId"); } catch (e) {}
+      window.digitalData = { user: { id: loginId, loggedIn: !!loginId } };
+    </script>
+
+    <script src="https://assets.adobedtm.com/adc4e8c4cdbc/639655e2ebee/launch-f07e6db8cc3d-development.min.js" async></script>
 </head>
 <body>
-//Visitor already logged in when the page loads 
-<script>
-  var loginId = null;
-  try { loginId = localStorage.getItem("loginId"); } catch (e) {}
-  window.digitalData = { user: { id: loginId, loggedIn: !!loginId } };
-</script>
-// Visitor already logged in when the page loads End
-
-<script src="https://assets.adobedtm.com/adc4e8c4cdbc/639655e2ebee/launch-f07e6db8cc3d-development.min.js" async></script>
     <h1>targetv2</h1>
 
     <!-- Login -->
@@ -56,34 +56,6 @@
   // Demo only: client-side check, password == id. Not secure for production.
   var VALID_IDS = ["test0001","test001","test002","test003","test004","test005",
                    "test006","test007","test008","test009","test010"];
-  var CUSTOMER_ID_TYPE = "uid";
-
-  // Launch loads async, so wait until the Visitor instance exists.
-  function withVisitor(cb, tries) {
-    tries = tries || 0;
-    var v = window.visitor;
-    if (!v && window.Visitor && Visitor.instances) {
-      for (var k in Visitor.instances) {
-        if (Visitor.instances.hasOwnProperty(k)) { v = Visitor.instances[k]; break; }
-      }
-    }
-    if (v) return cb(v);
-    if (tries < 100) setTimeout(function () { withVisitor(cb, tries + 1); }, 200);
-    else console.warn("Visitor instance not found");
-  }
-
-  function syncToVisitor(id, state) {
-    withVisitor(function (v) {
-      var ids = {};
-      ids[CUSTOMER_ID_TYPE] = { id: id, authState: state };
-      v.setCustomerIDs(ids);
-      console.log("ECID:", v.getMarketingCloudVisitorID(), "| setCustomerIDs", ids);
-      if (state === Visitor.AuthState.AUTHENTICATED &&
-          window.adobe && adobe.target && adobe.target.triggerView) {
-        adobe.target.triggerView("login");
-      }
-    });
-  }
 
   function render(id) {
     document.getElementById("login-form").style.display = id ? "none" : "";
@@ -91,43 +63,41 @@
     document.getElementById("login-user").textContent = id || "";
   }
 
+  function track(name) {
+    if (window._satellite) { _satellite.track(name); }
+    else { console.warn("_satellite not loaded yet: " + name); }
+  }
+
+  // Login: Launch rule "Login success" (Direct Call "login") = Set Customer IDs + Target request
   document.getElementById("login-form").addEventListener("submit", function (e) {
     e.preventDefault();
     var id = document.getElementById("login-id").value.trim();
     var pw = document.getElementById("login-pw").value;
     if (VALID_IDS.indexOf(id) > -1 && pw === id) {
-      localStorage.setItem("loginId", id);
+      localStorage.setItem("loginId", id);                         // 1. store the ID first
+      window.digitalData = { user: { id: id, loggedIn: true } };   // 2. update the data layer
       document.getElementById("login-msg").textContent = "";
       render(id);
-      // Launch rule (Direct Call "login") runs Set Customer IDs using %login id%
-      if (window._satellite) { _satellite.track("login"); }
-      else { console.warn("_satellite not loaded yet"); }
+      track("login");                                              // 3. fire the Direct Call rule
     } else {
       document.getElementById("login-msg").textContent = "Invalid ID or password";
     }
   });
 
+  // Logout: fire the rule while the ID is still available, then clear
   document.getElementById("logout-btn").addEventListener("click", function () {
-    localStorage.removeItem("loginId");
+    track("logout");                                               // 1. rule "Logout" (Direct Call "logout")
+    localStorage.removeItem("loginId");                            // 2. clear storage
+    window.digitalData = { user: { id: null, loggedIn: false } };  // 3. clear data layer
     render(null);
-    syncToVisitor("", Visitor.AuthState.LOGGED_OUT);
   });
 
-  // Restore session on page load
-  var saved = localStorage.getItem("loginId");
-  if (saved) {
-    render(saved);
-    withVisitor(function () { syncToVisitor(saved, Visitor.AuthState.AUTHENTICATED); });
-  }
+  // Restore UI on page load. Customer ID sync is done by the Launch rule
+  // "Set Customer IDs - Library Loaded" (order 10), so no sync call here.
+  var saved = null;
+  try { saved = localStorage.getItem("loginId"); } catch (e) {}
+  if (saved) { render(saved); }
 })();
-// Page code. In the login success branch:
-if (VALID_IDS.indexOf(id) > -1 && pw === id) {
-  localStorage.setItem("loginId", id);                  // 1. store the ID first
-  window.digitalData = { user: { id: id, loggedIn: true } };  // 2. update the data layer
-  render(id);
-  if (window._satellite) _satellite.track("login");     // 3. fire the Direct Call rule
-}
-// Page code. In the login success branch:
 </script>
 
 </body>
