@@ -5,11 +5,14 @@
     <title>targetv2</title>
 </head>
 <body>
+//Visitor already logged in when the page loads 
 <script>
   var loginId = null;
   try { loginId = localStorage.getItem("loginId"); } catch (e) {}
   window.digitalData = { user: { id: loginId, loggedIn: !!loginId } };
 </script>
+// Visitor already logged in when the page loads End
+
 <script src="https://assets.adobedtm.com/adc4e8c4cdbc/639655e2ebee/launch-f07e6db8cc3d-development.min.js" async></script>
     <h1>targetv2</h1>
 
@@ -117,6 +120,14 @@
     withVisitor(function () { syncToVisitor(saved, Visitor.AuthState.AUTHENTICATED); });
   }
 })();
+// Page code. In the login success branch:
+if (VALID_IDS.indexOf(id) > -1 && pw === id) {
+  localStorage.setItem("loginId", id);                  // 1. store the ID first
+  window.digitalData = { user: { id: id, loggedIn: true } };  // 2. update the data layer
+  render(id);
+  if (window._satellite) _satellite.track("login");     // 3. fire the Direct Call rule
+}
+// Page code. In the login success branch:
 </script>
 
 </body>
