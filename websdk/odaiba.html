@@ -3,22 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Odaiba Sea - Web SDK</title>
+    <title>Web SDK - Odaiba Sea</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 2rem;
         }
+        .image-container {
+            position: relative;
+            width: 500px;
+            max-width: 100%;
+        }
+        .image-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
         .home-link {
             position: absolute;
-            top: 2rem;
-            right: 2rem;
+            top: 1rem;
+            right: 1rem;
+            background: #222;
+            border-radius: 4px;
+            color: #fff;
+            padding: 0.65rem 1rem;
+            text-decoration: none;
         }
-        img {
-            display: block;
-            width: 500px;
-            height: auto;
-            max-width: 100%;
+        .home-link:hover,
+        .home-link:focus {
+            background: #444;
         }
     </style>
 
@@ -26,8 +39,10 @@
 
 </head>
 <body>
-    <a class="home-link" href="https://lightseawu.github.io/websdk/index.html">Back to Home</a>
     <h1>Odaiba</h1>
-    <img src="./images/odaiba-sea1.jpeg" alt="View of the sea in Odaiba">
+    <div class="image-container">
+        <img src="./images/odaiba-sea1.jpeg" alt="View of the sea in Odaiba">
+        <a class="home-link" href="https://lightseawu.github.io/websdk/index.html">Back to Home</a>
+    </div>
 </body>
 </html>
