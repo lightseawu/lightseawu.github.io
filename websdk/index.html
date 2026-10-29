@@ -2,6 +2,27 @@
 <html>
   <head>
     <title>My Simple Page </title>
+    <style>
+      .page-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .page-menu a {
+        background-color: #f0f0f0;
+        border-radius: 4px;
+        color: #222;
+        padding: 0.6rem 1rem;
+        text-decoration: none;
+      }
+
+      .page-menu a:hover,
+      .page-menu a:focus {
+        background-color: #ddd;
+      }
+    </style>
     <script type="text/javascript">
 window.digitalData = {
   "page": {
@@ -83,8 +104,12 @@ window.digitalData.page.pageInfo.sysEnv = navigator.userAgent;
 
   </head>
   <body>
-    <h1>Welcome to my Web SDK Homepage! </h1>
-     
+    <h1>Web SDK Homepage! </h1>
+    <nav class="page-menu" aria-label="Page menu">
+      <a href="./odaiba.html">Odaiba</a>
+      <a href="https://www.google.com">Google Search</a>
+    </nav>
+
     <div id="image1">
       <img srcset="./images/man-apparel2.jpeg" alt="Slide1">
     </div>
@@ -94,8 +119,5 @@ window.digitalData.page.pageInfo.sysEnv = navigator.userAgent;
       <li>List item 2</li>
       <li>List item 3</li>
     </ul>
-     <li><a href="./odaiba.html">Odaiba</a></li>
-    <a href="https://www.google.com">Google Search </a>
   </body>
 </html>
-
