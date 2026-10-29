@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Products - Web SDK</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+      }
+
+      .page-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .page-menu a {
+        background-color: #f0f0f0;
+        border-radius: 4px;
+        color: #222;
+        padding: 0.6rem 1rem;
+        text-decoration: none;
+      }
+
+      .page-menu a:hover,
+      .page-menu a:focus {
+        background-color: #ddd;
+      }
+
+      .product-list {
+        padding-left: 1.25rem;
+      }
+
+      .product-list li {
+        margin-bottom: 1rem;
+      }
+
+      .product-list img {
+        display: block;
+        width: 500px;
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 0.5rem;
+      }
+
+      .recommended-products {
+        margin-top: 2rem;
+      }
+
+      .recommendation-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .recommendation-card {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0.75rem;
+      }
+
+      .recommendation-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tesla Flying Car</h1>
+    <nav class="page-menu" aria-label="Page menu">
+      <a href="./index.html">Home</a>
+      <a href="./odaiba.html">Odaiba</a>
+    </nav>
+
+    <ul class="product-list">
+      <li>
+        <img src="./images/car6.jpeg" alt="Tesla flying car">
+        Price — $1B (Buy 2 get 1 free)
+      </li>
+    </ul>
+
+    <section class="recommended-products" aria-labelledby="recommended-heading">
+      <h2 id="recommended-heading">Recommended Products</h2>
+      <div class="recommendation-grid">
+        <article class="recommendation-card">
+          <img src="./images/car1.jpeg" alt="Yellow sports car">
+          <p>Recommended Car 1</p>
+        </article>
+        <article class="recommendation-card">
+          <img src="./images/car2.jpeg" alt="Blue sports car">
+          <p>Recommended Car 2</p>
+        </article>
+        <article class="recommendation-card">
+          <img src="./images/car3.jpeg" alt="Blue coupe">
+          <p>Recommended Car 3</p>
+        </article>
+        <article class="recommendation-card">
+          <img src="./images/car4.jpeg" alt="Electric sedan">
+          <p>Recommended Car 4</p>
+        </article>
+      </div>
+    </section>
+  </body>
+</html>
